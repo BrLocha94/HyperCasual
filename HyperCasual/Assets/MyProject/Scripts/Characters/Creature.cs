@@ -24,6 +24,9 @@ namespace Project.Characters
         private ECreatureStates currentState = ECreatureStates.Null;
         private Coroutine coroutine = null;
 
+        private int life = 300;
+        private int lifeRemoval = 1;
+
         private void Awake()
         {
             ChangeState(ECreatureStates.Idle);
@@ -64,6 +67,7 @@ namespace Project.Characters
             if (other.tag.Equals("CatchArea"))
             {
                 Debug.Log("Started catching");
+                coroutine = StartCoroutine(CatchingRoutine());
             }
         }
 
@@ -72,7 +76,43 @@ namespace Project.Characters
             if (other.tag.Equals("CatchArea"))
             {
                 Debug.Log("Stoped catching");
+
+                if(coroutine != null)
+                {
+                    StopCoroutine(CatchingRoutine());
+                    coroutine = null;
+                }
             }
+        }
+
+        IEnumerator CatchingRoutine()
+        {
+            while(life > 0)
+            {
+                life -= lifeRemoval;
+
+                if(life < 0)
+                    life = 0;
+
+                Debug.Log(life);
+
+                yield return null;
+            }
+
+            Debug.Log("Catched");
+            Catched();
+        }
+
+        void Catched()
+        {
+            if (coroutine != null)
+            {
+                StopCoroutine(CatchingRoutine());
+                coroutine = null;
+            }
+
+            ChangeState(ECreatureStates.Catched);
+            gameObject.SetActive(false);
         }
     }
 }
