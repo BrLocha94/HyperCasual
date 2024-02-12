@@ -8,9 +8,19 @@ namespace Project.Behaviours
     [CreateAssetMenu(menuName = "AIBehaviours/Running")]
     public class RunningBehaviour : AIBehaviourBase
     {
-        public override IEnumerator ExecuteBehaviourRoutine(CharacterController target, Transform targetTransform, Action onBehaviourFinished = null)
+        public override IEnumerator ExecuteBehaviourRoutine(Action onFinishCallback = null)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
+        }
+
+        public override void SetTarget(Transform targetTransform)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void StopBehavior()
+        {
+            throw new NotImplementedException();
         }
     }
 }

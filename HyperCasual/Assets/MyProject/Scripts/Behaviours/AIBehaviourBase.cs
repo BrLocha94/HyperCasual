@@ -7,6 +7,12 @@ namespace Project.Behaviours
 
     public abstract class AIBehaviourBase : ScriptableObject
     {
-        public abstract IEnumerator ExecuteBehaviourRoutine(CharacterController target, Transform targetTransform, Action onBehaviourFinished = null);
+        public virtual Vector3 GetMoviment()
+        {
+            return Vector3.zero;
+        }
+        public abstract void SetTarget(Transform targetTransform);
+        public abstract IEnumerator ExecuteBehaviourRoutine(Action onFinishCallback = null);
+        public abstract void StopBehavior();
     }
 }

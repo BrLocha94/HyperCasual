@@ -5,6 +5,7 @@ namespace Project.Characters
     using UnityEngine;
     using Project.Behaviours;
     using Project.Enums;
+    using UnityEngine.Windows;
 
     public class Creature : MonoBehaviour
     {
@@ -22,7 +23,12 @@ namespace Project.Characters
         [Space]
         [SerializeField]
         private ECreatureStates currentState = ECreatureStates.Null;
+        private AIBehaviourBase currentBehaviour = null;
+        
         private Coroutine coroutine = null;
+        private Coroutine behaviourCoroutine = null;
+
+        Vector3 moviment = Vector3.zero;
 
         private int life = 300;
         private int lifeRemoval = 1;
@@ -32,34 +38,56 @@ namespace Project.Characters
             ChangeState(ECreatureStates.Idle);
         }
 
+        private void FixedUpdate()
+        {
+            if (currentBehaviour == null)
+                return;
+
+            moviment = currentBehaviour.GetMoviment();
+
+            if (moviment == Vector3.zero)
+                return;
+
+            moviment = new Vector3(moviment.x * Time.fixedDeltaTime, 0f, moviment.z * Time.fixedDeltaTime);
+            transform.localRotation = Quaternion.LookRotation(moviment);
+
+            characterController.Move(moviment);
+        }
+
         private void ChangeState(ECreatureStates nextState)
         {
-            if(coroutine != null) 
-            {
-                StopCoroutine(coroutine);
-                coroutine = null;
-            }
-
             currentState = nextState;
+
+            if(behaviourCoroutine != null)
+            {
+                StopCoroutine(behaviourCoroutine);
+                behaviourCoroutine = null;
+            }
 
             if (currentState == ECreatureStates.Null)
                 return;
 
-            //if (currentState == ECreatureStates.Idle)
-            //    coroutine = StartCoroutine(idleBehaviour.ExecuteBehaviourRoutine(characterController, transform, FinishedIdle));
+            if (currentState == ECreatureStates.Idle)
+            {
+                currentBehaviour = idleBehaviour;
+                behaviourCoroutine = StartCoroutine(currentBehaviour.ExecuteBehaviourRoutine(FinishedIdle));
+            }
 
-            //if (currentState == ECreatureStates.Walking)
-            //    coroutine = StartCoroutine(walkingBehaviour.ExecuteBehaviourRoutine(characterController, transform, FinishedWalking));
+            else if (currentState == ECreatureStates.Walking)
+            {
+                currentBehaviour = walkingBehaviour;
+                behaviourCoroutine = StartCoroutine(currentBehaviour.ExecuteBehaviourRoutine(FinishedWalking));
+            }
         }
 
         private void FinishedIdle()
         {
-            //ChangeState(ECreatureStates.Walking);
+            ChangeState(ECreatureStates.Walking);
         }
 
         private void FinishedWalking()
         {
-            //ChangeState(ECreatureStates.Idle);
+            ChangeState(ECreatureStates.Idle);
         }
 
         private void OnTriggerEnter(Collider other)

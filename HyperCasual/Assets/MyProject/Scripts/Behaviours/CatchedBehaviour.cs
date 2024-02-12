@@ -8,9 +8,19 @@ namespace Project.Behaviours
     [CreateAssetMenu(menuName = "AIBehaviours/Catched")]
     public class CatchedBehaviour : AIBehaviourBase
     {
-        public override IEnumerator ExecuteBehaviourRoutine(CharacterController target, Transform targetTransform, Action onBehaviourFinished = null)
+        public override IEnumerator ExecuteBehaviourRoutine(Action onFinishCallback = null)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
+        }
+
+        public override void SetTarget(Transform targetTransform)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void StopBehavior()
+        {
+            throw new NotImplementedException();
         }
     }
 }

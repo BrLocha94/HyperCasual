@@ -19,35 +19,43 @@ namespace Project.Behaviours
         [SerializeField]
         private float maxSpeed = 3f;
 
+        [SerializeField]
+        private float movimentRange = 0.3f;
 
-        public override IEnumerator ExecuteBehaviourRoutine(CharacterController targetCharacter, Transform targetTransform, Action onBehaviourFinished = null)
+        Vector3 moviment = Vector3.zero;
+
+        public override Vector3 GetMoviment()
+        {
+            return moviment;
+        }
+
+        public override void SetTarget(Transform targetTransform)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override IEnumerator ExecuteBehaviourRoutine(Action onFinishCallback = null)
         {
             float randomTime = UnityEngine.Random.Range(minTime, maxTime);
             float randomSpeed = UnityEngine.Random.Range(minSpeed, maxSpeed);
 
-            float randomDirectionX = UnityEngine.Random.Range(-1, 1);
-            float randomDirectionZ = UnityEngine.Random.Range(-1, 1);
+            float randomDirectionX = UnityEngine.Random.Range(-movimentRange, movimentRange);
+            float randomDirectionZ = UnityEngine.Random.Range(-movimentRange, movimentRange);
 
-            Vector3 moviment;
-
-            float time = 0;
-            while (time < randomTime)
-            {
-                moviment = new Vector3(
-                    randomDirectionX * randomSpeed * Time.fixedDeltaTime,
+            moviment = new Vector3(
+                    randomDirectionX * randomSpeed,
                     0f,
-                    randomDirectionZ * randomSpeed * Time.fixedDeltaTime
+                    randomDirectionZ * randomSpeed
                     );
 
-                targetTransform.localRotation = Quaternion.LookRotation(moviment);
+            yield return new WaitForSeconds(randomTime);
 
-                targetCharacter.Move(moviment);
+            onFinishCallback?.Invoke();
+        }
 
-                time += Time.fixedDeltaTime;
-                yield return null;
-            }
-
-            onBehaviourFinished?.Invoke();
+        public override void StopBehavior()
+        {
+            throw new NotImplementedException();
         }
     }
 }

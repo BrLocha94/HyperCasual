@@ -14,13 +14,25 @@ namespace Project.Behaviours
         [SerializeField]
         private float maxTime = 5f;
 
-        public override IEnumerator ExecuteBehaviourRoutine(CharacterController target, Transform targetTransform, Action onBehaviourFinished = null)
+        Coroutine coroutine = null;
+
+        public override void SetTarget(Transform targetTransform)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override IEnumerator ExecuteBehaviourRoutine(Action onFinishCallback = null)
         {
             float random = UnityEngine.Random.Range(minTime, maxTime);
 
             yield return new WaitForSeconds(random);
 
-            onBehaviourFinished?.Invoke();
+            onFinishCallback?.Invoke();
+        }
+
+        public override void StopBehavior()
+        {
+            throw new NotImplementedException();
         }
     }
 }
