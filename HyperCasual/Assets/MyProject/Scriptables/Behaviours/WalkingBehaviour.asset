@@ -12,3 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6974aa72de5405748a60466a5158c39a, type: 3}
   m_Name: WalkingBehaviour
   m_EditorClassIdentifier: 
+  minTime: 2
+  maxTime: 5
+  minSpeed: 6
+  maxSpeed: 10
+  movimentRange: 0.3

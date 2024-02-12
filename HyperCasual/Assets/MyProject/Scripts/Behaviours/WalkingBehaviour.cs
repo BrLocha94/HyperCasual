@@ -31,7 +31,12 @@ namespace Project.Behaviours
 
         public override void SetTarget(Transform targetTransform)
         {
-            throw new NotImplementedException();
+            
+        }
+        
+        public override void StopBehavior()
+        {
+
         }
 
         public override IEnumerator ExecuteBehaviourRoutine(Action onFinishCallback = null)
@@ -51,11 +56,6 @@ namespace Project.Behaviours
             yield return new WaitForSeconds(randomTime);
 
             onFinishCallback?.Invoke();
-        }
-
-        public override void StopBehavior()
-        {
-            throw new NotImplementedException();
         }
     }
 }

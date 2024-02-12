@@ -67,6 +67,9 @@ namespace Project.Characters
             if (currentState == ECreatureStates.Null)
                 return;
 
+            if(currentBehaviour != null)
+                currentBehaviour.StopBehavior();
+
             if (currentState == ECreatureStates.Idle)
             {
                 currentBehaviour = idleBehaviour;

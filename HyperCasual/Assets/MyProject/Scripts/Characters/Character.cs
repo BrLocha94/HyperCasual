@@ -11,10 +11,13 @@ namespace Project.Characters
         private CharacterController characterController;
         [SerializeField]
         private JoystickUI joystick;
-
+        [SerializeField]
+        private ParticleSystem smokeEffect;
+        [SerializeField]
+        private float movimentSpeed = 5f;
+        
         private float inputX = 0f;
         private float inputZ = 0f;
-        private float movimentSpeed = 5f;
 
         private Vector3 moviment = Vector3.zero;
 
@@ -22,7 +25,12 @@ namespace Project.Characters
         private void FixedUpdate()
         {
             if (inputX == 0f && inputZ == 0f)
+            {
+                smokeEffect.enableEmission = false;
                 return;
+            }
+
+            smokeEffect.enableEmission = true;
 
             moviment = new Vector3(inputX * movimentSpeed * Time.fixedDeltaTime, 0f, inputZ * movimentSpeed * Time.fixedDeltaTime);
 
