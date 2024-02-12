@@ -57,7 +57,6 @@ namespace Project.Utils
                     posInput.y * (joystickBackground.rectTransform.sizeDelta.y / 4)
                     );
 
-                Debug.Log(posInput.x + " / " + posInput.y);
             }
         }
 

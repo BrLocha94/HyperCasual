@@ -42,21 +42,37 @@ namespace Project.Characters
             if (currentState == ECreatureStates.Null)
                 return;
 
-            if (currentState == ECreatureStates.Idle)
-                coroutine = StartCoroutine(idleBehaviour.ExecuteBehaviourRoutine(characterController, transform, FinishedIdle));
+            //if (currentState == ECreatureStates.Idle)
+            //    coroutine = StartCoroutine(idleBehaviour.ExecuteBehaviourRoutine(characterController, transform, FinishedIdle));
 
-            if (currentState == ECreatureStates.Walking)
-                coroutine = StartCoroutine(walkingBehaviour.ExecuteBehaviourRoutine(characterController, transform, FinishedWalking));
+            //if (currentState == ECreatureStates.Walking)
+            //    coroutine = StartCoroutine(walkingBehaviour.ExecuteBehaviourRoutine(characterController, transform, FinishedWalking));
         }
 
         private void FinishedIdle()
         {
-            ChangeState(ECreatureStates.Walking);
+            //ChangeState(ECreatureStates.Walking);
         }
 
         private void FinishedWalking()
         {
-            ChangeState(ECreatureStates.Idle);
+            //ChangeState(ECreatureStates.Idle);
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.tag.Equals("CatchArea"))
+            {
+                Debug.Log("Started catching");
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.tag.Equals("CatchArea"))
+            {
+                Debug.Log("Stoped catching");
+            }
         }
     }
 }
