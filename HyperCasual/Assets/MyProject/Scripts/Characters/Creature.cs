@@ -11,6 +11,8 @@ namespace Project.Characters
     {
         [SerializeField]
         private CharacterController characterController;
+        [SerializeField]
+        private ParticleSystem smokeEffect;
 
         [Header("Behaviours")]
         [SerializeField]
@@ -46,7 +48,12 @@ namespace Project.Characters
             moviment = currentBehaviour.GetMoviment();
 
             if (moviment == Vector3.zero)
+            {
+                smokeEffect.enableEmission = false;
                 return;
+            }
+
+            smokeEffect.enableEmission = true;
 
             moviment = new Vector3(moviment.x * Time.fixedDeltaTime, 0f, moviment.z * Time.fixedDeltaTime);
             transform.localRotation = Quaternion.LookRotation(moviment);
