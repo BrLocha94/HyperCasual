@@ -28555,6 +28555,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7464331774598200553}
   - component: {fileID: 8448076259108353112}
+  - component: {fileID: 1350523023}
   m_Layer: 10
   m_Name: Trigger
   m_TagString: Untagged
@@ -28590,6 +28591,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 5, y: 1, z: 11}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1350523023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3401356116476212970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 291d64770db3a4445a0df0f8c4f3bdc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 7173722329401673943}
 --- !u!1 &3414470606528453892
 GameObject:
   m_ObjectHideFlags: 0
