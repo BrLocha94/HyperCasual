@@ -25,6 +25,8 @@ namespace Project.Characters
         private AIBehaviourBase runningBehaviour;
         [SerializeField]
         private AIBehaviourBase catchBehaviour;
+        [SerializeField]
+        private AIBehaviourBase jailedBehaviour;
 
 
         private ECreatureStates currentState = ECreatureStates.Null;
@@ -38,12 +40,15 @@ namespace Project.Characters
         private int life = 300;
         private int lifeRemoval = 1;
 
+        public ECreatureType GetCreatureType() => creatureType;
+
         private void Awake()
         {
             idleBehaviour.onFinishEvent += FinishedIdle;
             walkingBehaviour.onFinishEvent += FinishedWalking;
             runningBehaviour.onFinishEvent += FinishedRunning;
             catchBehaviour.onFinishEvent += FinishedCatching;
+            jailedBehaviour.onFinishEvent += FinishedJail;
 
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>();
 
@@ -52,7 +57,7 @@ namespace Project.Characters
 
         private void FixedUpdate()
         {
-            if (currentState == ECreatureStates.Catched)
+            if (!gameObject.activeInHierarchy)
                 return;
 
             if (currentBehaviour == null)
@@ -65,15 +70,19 @@ namespace Project.Characters
                 smokeEffect.enableEmission = false;
                 return;
             }
-
-            smokeEffect.enableEmission = true;
-
-            moviment = new Vector3(moviment.x * Time.fixedDeltaTime, 0f, moviment.z * Time.fixedDeltaTime);
-            transform.localRotation = Quaternion.LookRotation(moviment);
-
-            characterController.Move(moviment);
+            else if (currentState != ECreatureStates.Jailed)
+            {
+                smokeEffect.enableEmission = true;
+                moviment = new Vector3(moviment.x * Time.fixedDeltaTime, 0f, moviment.z * Time.fixedDeltaTime);
+                transform.localRotation = Quaternion.LookRotation(moviment);
+                characterController.Move(moviment);
+            }
+            else
+            {
+                moviment = new Vector3(moviment.x * Time.fixedDeltaTime, 0f, moviment.z * Time.fixedDeltaTime);
+                transform.localRotation = Quaternion.LookRotation(moviment);
+            }
         }
-
         private void ChangeState(ECreatureStates nextState)
         {
             currentState = nextState;
@@ -114,6 +123,14 @@ namespace Project.Characters
                 currentBehaviour.ExecuteBehaviour();
                 return;
             }
+
+            else if (currentState == ECreatureStates.Jailed)
+            {
+                currentBehaviour = jailedBehaviour;
+                currentBehaviour.SetSource(transform);
+                currentBehaviour.ExecuteBehaviour();
+                return;
+            }
         }
 
         private void FinishedIdle()
@@ -134,6 +151,11 @@ namespace Project.Characters
         private void FinishedCatching()
         {
             gameObject.SetActive(false);
+        }
+
+        private void FinishedJail()
+        {
+            gameObject.SetActive(true);
         }
 
         private void OnTriggerEnter(Collider other)
@@ -206,6 +228,12 @@ namespace Project.Characters
         public void FinishCatching()
         {
             ChangeState(ECreatureStates.Catched);
+        }
+
+        public void SetOnJail()
+        {
+            gameObject.SetActive(true);
+            ChangeState(ECreatureStates.Jailed);
         }
     }
 }

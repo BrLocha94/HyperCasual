@@ -4,6 +4,7 @@ namespace Project.Characters
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
+    using Project.Enums;
 
     public class Character : MonoBehaviour
     {
@@ -52,6 +53,29 @@ namespace Project.Characters
             creature.transform.SetParent(catchedList);
             creatures.Add(creature);
             creature.FinishCatching();
+        }
+
+        public List<Creature> GetCatchedCreaturesByType(List<ECreatureType> typeList)
+        {
+            if (creatures.Count == 0)
+                return null;
+
+            List<Creature> list = new List<Creature>();
+
+            for(int i = 0; i < typeList.Count; i++) 
+            {
+                for(int j = 0; j < creatures.Count; j++)
+                {
+                    if (creatures[j].GetCreatureType() == typeList[i])
+                    {
+                        list.Add(creatures[j]);
+                        creatures.RemoveAt(j);
+                        break;
+                    }
+                }
+            }
+
+            return list;
         }
     }
 }

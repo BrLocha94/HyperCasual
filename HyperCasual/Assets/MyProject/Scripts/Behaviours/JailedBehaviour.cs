@@ -3,9 +3,8 @@ namespace Project.Behaviours
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
-    using System;
 
-    public class CatchedBehaviour : AIBehaviourBase
+    public class JailedBehaviour : AIBehaviourBase
     {
         [SerializeField]
         private AnimationCurve curve;
@@ -16,6 +15,13 @@ namespace Project.Behaviours
 
         Coroutine coroutine = null;
         Transform source = null;
+
+        Vector3 moviment = new Vector3(0f, 0f, 1f);
+
+        public override Vector3 GetMoviment()
+        {
+            return moviment;
+        }
 
         public override void SetSource(Transform sourceTransform)
         {
@@ -29,7 +35,7 @@ namespace Project.Behaviours
 
         public override void StopBehavior()
         {
-            if(coroutine != null) 
+            if (coroutine != null)
             {
                 StopCoroutine(coroutine);
                 coroutine = null;
@@ -40,6 +46,8 @@ namespace Project.Behaviours
 
         public IEnumerator ExecuteBehaviourRoutine()
         {
+            yield return new WaitForEndOfFrame();
+
             float time = 0;
 
             Vector3 initialPoint = source.localPosition;
@@ -58,19 +66,17 @@ namespace Project.Behaviours
             while (time < animationUpTime)
             {
                 source.localPosition = Vector3.Lerp(initialPoint, midPoint, curve.Evaluate(time / animationUpTime));
-                source.localScale = Vector3.Lerp(initialScale, midScale, curve.Evaluate(time / animationUpTime));
+                source.localScale = Vector3.Lerp(initialScale, Vector3.one, curve.Evaluate(time / animationUpTime));
                 time += Time.deltaTime;
                 yield return null;
             }
 
             time = 0f;
             initialPoint = source.localPosition;
-            initialScale = source.localScale;
 
             while (time < animationDownTime)
             {
-                source.localPosition = Vector3.Lerp(initialPoint, Vector3.zero, curve.Evaluate(time / animationDownTime));
-                source.localScale = Vector3.Lerp(initialScale, Vector3.zero, curve.Evaluate(time / animationDownTime));
+                source.localPosition = Vector3.Lerp(initialPoint, Vector3.up, curve.Evaluate(time / animationDownTime));
                 time += Time.deltaTime;
                 yield return null;
             }
