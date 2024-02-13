@@ -186,7 +186,7 @@ namespace Project.Characters
                 {
                     if (catchCoroutine != null)
                     {
-                        StopCoroutine(CatchingRoutine());
+                        StopCoroutine(catchCoroutine);
                         catchCoroutine = null;
                     }
 
@@ -213,7 +213,7 @@ namespace Project.Characters
 
                 if (catchCoroutine != null)
                 {
-                    StopCoroutine(CatchingRoutine());
+                    StopCoroutine(catchCoroutine);
                     catchCoroutine = null;
                 }
 
@@ -245,7 +245,7 @@ namespace Project.Characters
 
             if (catchCoroutine != null)
             {
-                StopCoroutine(CatchingRoutine());
+                StopCoroutine(catchCoroutine);
                 catchCoroutine = null;
             }
 
@@ -274,7 +274,7 @@ namespace Project.Characters
             {
                 if (catchCoroutine != null)
                 {
-                    StopCoroutine(CatchingRoutine());
+                    StopCoroutine(catchCoroutine);
                     catchCoroutine = null;
                     
                     //CHANGE CANVAS MESSAGE
