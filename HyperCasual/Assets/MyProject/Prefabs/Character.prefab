@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6893211891354134015}
+  - component: {fileID: 3522072812867927383}
   - component: {fileID: 6893211891354134000}
   - component: {fileID: 6893211891354134001}
   - component: {fileID: 6893211891354134014}
@@ -27,13 +28,25 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6893211891354134012}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 4.15}
+  m_LocalPosition: {x: 0, y: -0.71, z: 4.39}
   m_LocalScale: {x: 6.16, y: 0.02, z: 6.51}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6893211891747397360}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3522072812867927383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6893211891354134012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 126bbfbd511d26348a8cbcc46923c77e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!33 &6893211891354134000
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -160,6 +173,7 @@ MonoBehaviour:
   characterController: {fileID: 6893211891747397373}
   animator: {fileID: 5667388035250473606}
   joystick: {fileID: 0}
+  catchArea: {fileID: 3522072812867927383}
   smokeEffect: {fileID: 6893211891925503214}
   catchedList: {fileID: 6893211893093533312}
   movimentSpeed: 6.5

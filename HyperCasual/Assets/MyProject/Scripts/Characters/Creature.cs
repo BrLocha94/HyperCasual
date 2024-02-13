@@ -44,6 +44,11 @@ namespace Project.Characters
         private bool canCatch = true;
 
         public ECreatureType GetCreatureType() => creatureType;
+        public bool CanCatchCreature() => (
+            currentState == ECreatureStates.Idle ||
+            currentState == ECreatureStates.Walking ||
+            currentState == ECreatureStates.Running
+            );
 
         private void Awake()
         {
@@ -170,56 +175,34 @@ namespace Project.Characters
             gameObject.SetActive(true);
         }
 
-        private void OnTriggerEnter(Collider other)
+        public void StartCatch()
         {
-            if (currentState == ECreatureStates.Catched ||
-                currentState == ECreatureStates.Jailed ||
-                currentState == ECreatureStates.Merging)
-                return;
+            ChangeState(ECreatureStates.Running);
 
-            if (other.tag.Equals("CatchArea"))
+            if (canCatch)
             {
-                ChangeState(ECreatureStates.Running);
-                player.SetCatchingMode(true);
-
-                if (canCatch)
-                {
-                    if (catchCoroutine != null)
-                    {
-                        StopCoroutine(catchCoroutine);
-                        catchCoroutine = null;
-                    }
-
-                    catchCoroutine = StartCoroutine(CatchingRoutine());
-                    //Change canvas message to catching
-                    return;
-                }
-
-                //Trigger canvas with warning FULL
-                Debug.Log("FULL");
-            }
-        }
-
-        private void OnTriggerExit(Collider other)
-        {
-            if (currentState == ECreatureStates.Catched ||
-                currentState == ECreatureStates.Jailed ||
-                currentState == ECreatureStates.Merging)
-                return;
-
-            if (other.tag.Equals("CatchArea"))
-            {
-                player.SetCatchingMode(false);
-
                 if (catchCoroutine != null)
                 {
                     StopCoroutine(catchCoroutine);
                     catchCoroutine = null;
                 }
 
-                //Deactivate all canvas
-                Debug.Log("DEACTIVATING CANVAS");
+                catchCoroutine = StartCoroutine(CatchingRoutine());
+                //Change canvas message to catching
+                return;
             }
+        }
+
+        public void StopCatch() 
+        {
+            if (catchCoroutine != null)
+            {
+                StopCoroutine(catchCoroutine);
+                catchCoroutine = null;
+            }
+
+            //Deactivate all canvas
+            Debug.Log("DEACTIVATING CANVAS");
         }
 
         IEnumerator CatchingRoutine()

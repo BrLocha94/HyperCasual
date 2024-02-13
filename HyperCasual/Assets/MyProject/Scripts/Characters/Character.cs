@@ -15,6 +15,8 @@ namespace Project.Characters
         [SerializeField]
         private JoystickUI joystick;
         [SerializeField]
+        private CatchArea catchArea;
+        [SerializeField]
         private ParticleSystem smokeEffect;
         [SerializeField]
         private Transform catchedList;
@@ -26,6 +28,16 @@ namespace Project.Characters
 
         private Vector3 moviment = Vector3.zero;
         private List<Creature> creatures = new List<Creature>();
+
+        private void Awake()
+        {
+            catchArea.onCountUpdated += OnCatchListUpdated;
+        }
+
+        private void OnCatchListUpdated(int count)
+        {
+            animator.SetLayerWeight(1, count > 0 ? 1 : 0);
+        }
 
         private void FixedUpdate()
         {
@@ -64,6 +76,8 @@ namespace Project.Characters
             creatures.Add(creature);
             creature.FinishCatching();
             CreatureController.Instance.CatchCreature(creature.GetCreatureType());
+
+            catchArea.CatchedCreature(creature);
         }
 
         public List<Creature> GetCatchedCreaturesByType(List<ECreatureType> typeList)
@@ -87,11 +101,6 @@ namespace Project.Characters
             }
 
             return list;
-        }
-
-        public void SetCatchingMode(bool enabled)
-        {
-            animator.SetLayerWeight(1, enabled ? 1 : 0);
         }
     }
 }
