@@ -7,7 +7,6 @@ namespace Project.Behaviours
     using UnityEngine.UIElements;
     using UnityEngine.Windows;
 
-    [CreateAssetMenu(menuName = "AIBehaviours/Walking")]
     public class WalkingBehaviour : AIBehaviourBase
     {
         [SerializeField]

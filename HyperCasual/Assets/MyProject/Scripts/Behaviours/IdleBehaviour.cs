@@ -6,7 +6,6 @@ namespace Project.Behaviours
     using System;
     using Unity.Mathematics;
 
-    [CreateAssetMenu(menuName = "AIBehaviours/Idle")]
     public class IdleBehaviour : AIBehaviourBase
     {
         [SerializeField]

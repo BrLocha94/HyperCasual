@@ -7,6 +7,7 @@ namespace Project.Enums
         Walking,
         Running,
         Catched,
+        Jailed,
         Merging
     }
 }

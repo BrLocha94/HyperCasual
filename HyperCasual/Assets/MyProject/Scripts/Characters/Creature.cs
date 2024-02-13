@@ -10,6 +10,8 @@ namespace Project.Characters
     public class Creature : MonoBehaviour
     {
         [SerializeField]
+        private ECreatureType creatureType;
+        [SerializeField]
         private CharacterController characterController;
         [SerializeField]
         private ParticleSystem smokeEffect;
@@ -21,12 +23,14 @@ namespace Project.Characters
         private AIBehaviourBase walkingBehaviour;
         [SerializeField]
         private AIBehaviourBase runningBehaviour;
-
-        [Space]
         [SerializeField]
+        private AIBehaviourBase catchBehaviour;
+
+
         private ECreatureStates currentState = ECreatureStates.Null;
         private AIBehaviourBase currentBehaviour = null;
-        
+
+        private Character player = null;
         private Coroutine coroutine = null;
 
         Vector3 moviment = Vector3.zero;
@@ -39,12 +43,18 @@ namespace Project.Characters
             idleBehaviour.onFinishEvent += FinishedIdle;
             walkingBehaviour.onFinishEvent += FinishedWalking;
             runningBehaviour.onFinishEvent += FinishedRunning;
+            catchBehaviour.onFinishEvent += FinishedCatching;
+
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>();
 
             ChangeState(ECreatureStates.Idle);
         }
 
         private void FixedUpdate()
         {
+            if (currentState == ECreatureStates.Catched)
+                return;
+
             if (currentBehaviour == null)
                 return;
 
@@ -92,7 +102,15 @@ namespace Project.Characters
             {
                 currentBehaviour = runningBehaviour;
                 currentBehaviour.SetSource(transform);
-                currentBehaviour.SetTarget(GameObject.FindGameObjectWithTag("Player").transform);
+                currentBehaviour.SetTarget(player.transform);
+                currentBehaviour.ExecuteBehaviour();
+                return;
+            }
+
+            else if (currentState == ECreatureStates.Catched)
+            {
+                currentBehaviour = catchBehaviour;
+                currentBehaviour.SetSource(transform);
                 currentBehaviour.ExecuteBehaviour();
                 return;
             }
@@ -113,22 +131,41 @@ namespace Project.Characters
             ChangeState(ECreatureStates.Idle);
         }
 
+        private void FinishedCatching()
+        {
+            gameObject.SetActive(false);
+        }
+
         private void OnTriggerEnter(Collider other)
         {
+            if (currentState == ECreatureStates.Catched ||
+                currentState == ECreatureStates.Jailed ||
+                currentState == ECreatureStates.Merging)
+                return;
+
             if (other.tag.Equals("CatchArea"))
             {
                 ChangeState(ECreatureStates.Running);
-                Debug.Log("Started catching");
-                //coroutine = StartCoroutine(CatchingRoutine());
+
+                if (coroutine != null)
+                {
+                    StopCoroutine(CatchingRoutine());
+                    coroutine = null;
+                }
+
+                coroutine = StartCoroutine(CatchingRoutine());
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
+            if (currentState == ECreatureStates.Catched ||
+                currentState == ECreatureStates.Jailed ||
+                currentState == ECreatureStates.Merging)
+                return;
+
             if (other.tag.Equals("CatchArea"))
             {
-                Debug.Log("Stoped catching");
-
                 if(coroutine != null)
                 {
                     StopCoroutine(CatchingRoutine());
@@ -163,8 +200,12 @@ namespace Project.Characters
                 coroutine = null;
             }
 
+            player.CatchCreature(this);
+        }
+
+        public void FinishCatching()
+        {
             ChangeState(ECreatureStates.Catched);
-            gameObject.SetActive(false);
         }
     }
 }

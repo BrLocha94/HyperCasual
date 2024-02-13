@@ -4,11 +4,7 @@ namespace Project.Behaviours
     using System.Collections.Generic;
     using UnityEngine;
     using System;
-    using static UnityEditor.PlayerSettings;
-    using UnityEditor.Rendering;
-    using static UnityEngine.GraphicsBuffer;
 
-    [CreateAssetMenu(menuName = "AIBehaviours/Running")]
     public class RunningBehaviour : AIBehaviourBase
     {
         [SerializeField]
