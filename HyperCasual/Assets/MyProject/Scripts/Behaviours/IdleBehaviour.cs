@@ -16,23 +16,27 @@ namespace Project.Behaviours
 
         Coroutine coroutine = null;
 
-        public override void SetTarget(Transform targetTransform)
-        {
-            
-        }
-
         public override void StopBehavior()
         {
-
+            if(coroutine != null) 
+            {
+                StopCoroutine(coroutine);
+                coroutine = null;
+            }
         }
 
-        public override IEnumerator ExecuteBehaviourRoutine(Action onFinishCallback = null)
+        public override void ExecuteBehaviour()
+        {
+            coroutine = StartCoroutine(ExecuteBehaviourRoutine());
+        }
+
+        public IEnumerator ExecuteBehaviourRoutine()
         {
             float random = UnityEngine.Random.Range(minTime, maxTime);
 
             yield return new WaitForSeconds(random);
 
-            onFinishCallback?.Invoke();
+            OnBehaviourFinished();
         }
     }
 }

@@ -24,22 +24,28 @@ namespace Project.Behaviours
 
         Vector3 moviment = Vector3.zero;
 
+        Coroutine coroutine = null;
+
         public override Vector3 GetMoviment()
         {
             return moviment;
         }
 
-        public override void SetTarget(Transform targetTransform)
-        {
-            
-        }
-        
         public override void StopBehavior()
         {
-
+            if (coroutine != null)
+            {
+                StopCoroutine(coroutine);
+                coroutine = null;
+            }
         }
 
-        public override IEnumerator ExecuteBehaviourRoutine(Action onFinishCallback = null)
+        public override void ExecuteBehaviour()
+        {
+            coroutine = StartCoroutine(ExecuteBehaviourRoutine());
+        }
+
+        public IEnumerator ExecuteBehaviourRoutine()
         {
             float randomTime = UnityEngine.Random.Range(minTime, maxTime);
             float randomSpeed = UnityEngine.Random.Range(minSpeed, maxSpeed);
@@ -55,7 +61,7 @@ namespace Project.Behaviours
 
             yield return new WaitForSeconds(randomTime);
 
-            onFinishCallback?.Invoke();
+            OnBehaviourFinished();
         }
     }
 }

@@ -28,7 +28,6 @@ namespace Project.Characters
         private AIBehaviourBase currentBehaviour = null;
         
         private Coroutine coroutine = null;
-        private Coroutine behaviourCoroutine = null;
 
         Vector3 moviment = Vector3.zero;
 
@@ -37,6 +36,10 @@ namespace Project.Characters
 
         private void Awake()
         {
+            idleBehaviour.onFinishEvent += FinishedIdle;
+            walkingBehaviour.onFinishEvent += FinishedWalking;
+            runningBehaviour.onFinishEvent += FinishedRunning;
+
             ChangeState(ECreatureStates.Idle);
         }
 
@@ -65,12 +68,6 @@ namespace Project.Characters
         {
             currentState = nextState;
 
-            if(behaviourCoroutine != null)
-            {
-                StopCoroutine(behaviourCoroutine);
-                behaviourCoroutine = null;
-            }
-
             if (currentState == ECreatureStates.Null)
                 return;
 
@@ -80,13 +77,24 @@ namespace Project.Characters
             if (currentState == ECreatureStates.Idle)
             {
                 currentBehaviour = idleBehaviour;
-                behaviourCoroutine = StartCoroutine(currentBehaviour.ExecuteBehaviourRoutine(FinishedIdle));
+                currentBehaviour.ExecuteBehaviour();
+                return;
             }
 
             else if (currentState == ECreatureStates.Walking)
             {
                 currentBehaviour = walkingBehaviour;
-                behaviourCoroutine = StartCoroutine(currentBehaviour.ExecuteBehaviourRoutine(FinishedWalking));
+                currentBehaviour.ExecuteBehaviour();
+                return;
+            }
+
+            else if (currentState == ECreatureStates.Running)
+            {
+                currentBehaviour = runningBehaviour;
+                currentBehaviour.SetSource(transform);
+                currentBehaviour.SetTarget(GameObject.FindGameObjectWithTag("Player").transform);
+                currentBehaviour.ExecuteBehaviour();
+                return;
             }
         }
 
@@ -100,12 +108,18 @@ namespace Project.Characters
             ChangeState(ECreatureStates.Idle);
         }
 
+        private void FinishedRunning()
+        {
+            ChangeState(ECreatureStates.Idle);
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.tag.Equals("CatchArea"))
             {
+                ChangeState(ECreatureStates.Running);
                 Debug.Log("Started catching");
-                coroutine = StartCoroutine(CatchingRoutine());
+                //coroutine = StartCoroutine(CatchingRoutine());
             }
         }
 
