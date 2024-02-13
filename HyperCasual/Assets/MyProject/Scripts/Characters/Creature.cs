@@ -33,12 +33,13 @@ namespace Project.Characters
         private AIBehaviourBase currentBehaviour = null;
 
         private Character player = null;
-        private Coroutine coroutine = null;
+        private Coroutine catchCoroutine = null;
 
         Vector3 moviment = Vector3.zero;
 
         private int life = 300;
         private int lifeRemoval = 1;
+        private bool canCatch = true;
 
         public ECreatureType GetCreatureType() => creatureType;
 
@@ -53,6 +54,12 @@ namespace Project.Characters
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>();
 
             ChangeState(ECreatureStates.Idle);
+        }
+
+        private void Start()
+        {
+            canCatch = CreatureController.Instance.CanCatchCreature(creatureType);
+            CreatureController.Instance.onCreatureCatched += CreatureCatched;
         }
 
         private void FixedUpdate()
@@ -169,13 +176,21 @@ namespace Project.Characters
             {
                 ChangeState(ECreatureStates.Running);
 
-                if (coroutine != null)
+                if (canCatch)
                 {
-                    StopCoroutine(CatchingRoutine());
-                    coroutine = null;
+                    if (catchCoroutine != null)
+                    {
+                        StopCoroutine(CatchingRoutine());
+                        catchCoroutine = null;
+                    }
+
+                    catchCoroutine = StartCoroutine(CatchingRoutine());
+                    //Change canvas message to catching
+                    return;
                 }
 
-                coroutine = StartCoroutine(CatchingRoutine());
+                //Trigger canvas with warning FULL
+                Debug.Log("FULL");
             }
         }
 
@@ -188,11 +203,14 @@ namespace Project.Characters
 
             if (other.tag.Equals("CatchArea"))
             {
-                if(coroutine != null)
+                if(catchCoroutine != null)
                 {
                     StopCoroutine(CatchingRoutine());
-                    coroutine = null;
+                    catchCoroutine = null;
                 }
+
+                //Deactivate all canvas
+                Debug.Log("DEACTIVATING CANVAS");
             }
         }
 
@@ -210,16 +228,17 @@ namespace Project.Characters
                 yield return null;
             }
 
-            Debug.Log("Catched");
             Catched();
         }
 
         void Catched()
         {
-            if (coroutine != null)
+            Debug.Log("Catched");
+
+            if (catchCoroutine != null)
             {
                 StopCoroutine(CatchingRoutine());
-                coroutine = null;
+                catchCoroutine = null;
             }
 
             player.CatchCreature(this);
@@ -234,6 +253,30 @@ namespace Project.Characters
         {
             gameObject.SetActive(true);
             ChangeState(ECreatureStates.Jailed);
+        }
+
+        private void CreatureCatched(ECreatureType type) 
+        {
+            if (type != creatureType)
+                return;
+
+            canCatch = CreatureController.Instance.CanCatchCreature(creatureType);
+
+            if (!canCatch)
+            {
+                if (catchCoroutine != null)
+                {
+                    StopCoroutine(CatchingRoutine());
+                    catchCoroutine = null;
+                    
+                    //CHANGE CANVAS MESSAGE
+                    Debug.Log("FULL");
+                    return;
+                }
+
+                //Deactivate all canvas
+                Debug.Log("DEACTIVATING CANVAS");
+            }
         }
     }
 }

@@ -50,9 +50,13 @@ namespace Project.Characters
 
         public void CatchCreature(Creature creature)
         {
+            if (!CreatureController.Instance.CanCatchCreature(creature.GetCreatureType()))
+                return;
+
             creature.transform.SetParent(catchedList);
             creatures.Add(creature);
             creature.FinishCatching();
+            CreatureController.Instance.CatchCreature(creature.GetCreatureType());
         }
 
         public List<Creature> GetCatchedCreaturesByType(List<ECreatureType> typeList)
