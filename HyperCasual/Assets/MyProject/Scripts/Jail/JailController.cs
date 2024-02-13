@@ -11,6 +11,8 @@ namespace Project.Jail
         [SerializeField]
         private List<Jail> jailList = new List<Jail>();
 
+        private float mergeInitialDelay = 2f;
+
         private void Awake()
         {
             //THIS SHOULD BE INITIALIZED BY AN DATA SCRIPT
@@ -46,6 +48,25 @@ namespace Project.Jail
 
                 jail.SetCreature(list.Find(x => x.GetCreatureType() == jail.CreatureType));
             }
+
+
+        }
+
+        private void CheckJailsForMerge()
+        {
+            foreach (var jail in jailList)
+            {
+                if (jail.isFull) continue;
+
+                return;
+            }
+
+
+        }
+
+        private IEnumerator MergeRoutine()
+        {
+            yield return new WaitForSeconds(mergeInitialDelay);
         }
     }
 }

@@ -59,7 +59,7 @@ namespace Project.Characters
         private void Start()
         {
             canCatch = CreatureController.Instance.CanCatchCreature(creatureType);
-            CreatureController.Instance.onCreatureCatched += CreatureCatched;
+            CreatureController.Instance.onCreatureCountUpdated += CreatureCatched;
         }
 
         private void FixedUpdate()

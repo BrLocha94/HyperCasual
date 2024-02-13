@@ -4,13 +4,13 @@ namespace Project.Characters
     using System.Collections.Generic;
     using UnityEngine;
     using Project.Utils;
-    using Project.ui;
+    using Project.Utils;
     using Project.Enums;
     using System;
 
     public class CreatureController : MonoSingleton<CreatureController>
     {
-        public Action<ECreatureType> onCreatureCatched = null;
+        public Action<ECreatureType> onCreatureCountUpdated = null;
 
         private List<ECreatureType> catchedCreatures = new List<ECreatureType>();
         private Dictionary<ECreatureType, int> currentCatchedCreatures = new Dictionary<ECreatureType, int>();
@@ -33,12 +33,23 @@ namespace Project.Characters
         public void CatchCreature(ECreatureType creatureType)
         {
             currentCatchedCreatures[creatureType]++;
-            onCreatureCatched?.Invoke(creatureType);
+            onCreatureCountUpdated?.Invoke(creatureType);
 
             if(!catchedCreatures.Contains(creatureType)) 
             { 
                 catchedCreatures.Add(creatureType);
             }
+        }
+
+        public void MergedCreature(ECreatureType creatureType)
+        {
+            currentCatchedCreatures[creatureType]--;
+
+            //Safeguard
+            if (currentCatchedCreatures[creatureType] < 0)
+                currentCatchedCreatures[creatureType] = 0;
+
+            onCreatureCountUpdated?.Invoke(creatureType);
         }
     }
 }
