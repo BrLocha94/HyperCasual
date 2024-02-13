@@ -13,10 +13,10 @@ namespace Project.UI
         [SerializeField]
         private PopText popText;
 
-        private int levelValue = 100;
+        private int levelValue = 50;
         private int currentValue = 0;
         private int finalValue = 0;
-        private int levelScaling = 50;
+        private int levelScaling = 70;
         private float levelUpDelay = 0.4f;
 
         private int currentLevel = 1;
@@ -38,12 +38,6 @@ namespace Project.UI
         {
             finalValue = currentValue + value;
             CheckValues();
-        }
-
-        private void Update()
-        {
-            if(Input.GetKeyDown(KeyCode.Q))
-                AddValue(70);
         }
 
         IEnumerator FillRoutine()
