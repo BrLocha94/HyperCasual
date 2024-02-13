@@ -12,6 +12,8 @@ namespace Project.Characters
         [SerializeField]
         private ECreatureType creatureType;
         [SerializeField]
+        private Animator animator;
+        [SerializeField]
         private CharacterController characterController;
         [SerializeField]
         private ParticleSystem smokeEffect;
@@ -75,10 +77,12 @@ namespace Project.Characters
             if (moviment == Vector3.zero)
             {
                 smokeEffect.enableEmission = false;
+                animator.Play("Idle");
                 return;
             }
             else if (currentState != ECreatureStates.Jailed)
             {
+                animator.Play("Walk");
                 smokeEffect.enableEmission = true;
                 moviment = new Vector3(moviment.x * Time.fixedDeltaTime, 0f, moviment.z * Time.fixedDeltaTime);
                 transform.localRotation = Quaternion.LookRotation(moviment);
@@ -86,6 +90,7 @@ namespace Project.Characters
             }
             else
             {
+                animator.Play("Idle_Variation");
                 moviment = new Vector3(moviment.x * Time.fixedDeltaTime, 0f, moviment.z * Time.fixedDeltaTime);
                 transform.localRotation = Quaternion.LookRotation(moviment);
             }
