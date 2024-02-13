@@ -175,6 +175,7 @@ namespace Project.Characters
             if (other.tag.Equals("CatchArea"))
             {
                 ChangeState(ECreatureStates.Running);
+                player.SetCatchingMode(true);
 
                 if (canCatch)
                 {
@@ -203,7 +204,9 @@ namespace Project.Characters
 
             if (other.tag.Equals("CatchArea"))
             {
-                if(catchCoroutine != null)
+                player.SetCatchingMode(false);
+
+                if (catchCoroutine != null)
                 {
                     StopCoroutine(CatchingRoutine());
                     catchCoroutine = null;

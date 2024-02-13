@@ -11,6 +11,8 @@ namespace Project.Characters
         [SerializeField]
         private CharacterController characterController;
         [SerializeField]
+        private Animator animator;
+        [SerializeField]
         private JoystickUI joystick;
         [SerializeField]
         private ParticleSystem smokeEffect;
@@ -30,6 +32,7 @@ namespace Project.Characters
             if (inputX == 0f && inputZ == 0f)
             {
                 smokeEffect.enableEmission = false;
+                animator.SetFloat("Moviment", 0f);
                 return;
             }
 
@@ -40,6 +43,10 @@ namespace Project.Characters
             transform.localRotation = Quaternion.LookRotation(moviment);
 
             characterController.Move(moviment);
+
+            float movimentScale = (inputX > 0.5f || inputZ > 0.5f) ? 1f : 0.5f;
+
+            animator.SetFloat("Moviment", movimentScale);
         }
 
         private void Update()
@@ -80,6 +87,11 @@ namespace Project.Characters
             }
 
             return list;
+        }
+
+        public void SetCatchingMode(bool enabled)
+        {
+            animator.SetLayerWeight(1, enabled ? 1 : 0);
         }
     }
 }
