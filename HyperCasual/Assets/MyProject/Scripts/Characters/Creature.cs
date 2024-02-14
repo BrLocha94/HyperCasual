@@ -29,6 +29,8 @@ namespace Project.Characters
         private int lifeRemoval = 1;
         [SerializeField]
         private float gravityScale = 1f;
+        [SerializeField]
+        private bool isProp = false;
 
         private ECreatureStates currentState = ECreatureStates.Null;
 
@@ -46,7 +48,7 @@ namespace Project.Characters
             currentState == ECreatureStates.Idle ||
             currentState == ECreatureStates.Walking ||
             currentState == ECreatureStates.Running
-            );
+            )  && !isProp;
 
         private void OnStateChange(ECreatureStates state)
         {
@@ -111,6 +113,9 @@ namespace Project.Characters
 
         public void StartCatch()
         {
+            if (isProp)
+                return;
+
             creatureFSM.ChangeState(ECreatureStates.Running);
 
             if (canCatch)
