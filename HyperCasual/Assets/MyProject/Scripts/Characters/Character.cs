@@ -69,7 +69,7 @@ namespace Project.Characters
 
             characterController.Move(moviment);
 
-            float movimentScale = (moviment.x > 0.5f || moviment.z > 0.5f) ? 1f : 0.5f;
+            float movimentScale = (moviment.x > 0.3f || moviment.z > 0.3f) ? 1f : 0.5f;
 
             animator.SetFloat("Moviment", movimentScale);
         }

@@ -4,7 +4,6 @@ namespace Project.Characters
     using System.Collections.Generic;
     using UnityEngine;
     using Project.Utils;
-    using Project.Utils;
     using Project.Enums;
     using System;
 

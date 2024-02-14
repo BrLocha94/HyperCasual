@@ -6,6 +6,8 @@ namespace Project.Characters
     using Project.Behaviours;
     using Project.Enums;
     using UnityEngine.Windows;
+    using Project.UI;
+    using System.Diagnostics;
 
     public class Creature : CharacterBase
     {
@@ -13,6 +15,10 @@ namespace Project.Characters
         [Header("External references")]
         [SerializeField]
         private CreatureFSM creatureFSM;
+        [SerializeField]
+        private GameObject canvas;
+        [SerializeField]
+        private FillHolder fillHolder;
 
         [Header("Creature configurations")]
         [SerializeField]
@@ -52,6 +58,9 @@ namespace Project.Characters
             creatureFSM.onStateChange += OnStateChange;
 
             currentLife = defaultLife;
+            fillHolder.SetCurrentFill(currentLife, defaultLife);
+            canvas.gameObject.SetActive(false);
+
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>();
         }
 
@@ -113,7 +122,7 @@ namespace Project.Characters
                 }
 
                 catchCoroutine = StartCoroutine(CatchingRoutine());
-                //Change canvas message to catching
+                canvas.gameObject.SetActive(true);
                 return;
             }
         }
@@ -126,8 +135,7 @@ namespace Project.Characters
                 catchCoroutine = null;
             }
 
-            //Deactivate all canvas
-            Debug.Log("DEACTIVATING CANVAS");
+            canvas.gameObject.SetActive(false);
         }
 
         IEnumerator CatchingRoutine()
@@ -139,7 +147,7 @@ namespace Project.Characters
                 if(currentLife < 0)
                     currentLife = 0;
 
-                Debug.Log(currentLife);
+                fillHolder.SetCurrentFill(currentLife, defaultLife);
 
                 yield return null;
             }
@@ -149,14 +157,7 @@ namespace Project.Characters
 
         void Catched()
         {
-            Debug.Log("Catched");
-
-            if (catchCoroutine != null)
-            {
-                StopCoroutine(catchCoroutine);
-                catchCoroutine = null;
-            }
-
+            StopCatch();
             player.CatchCreature(this);
         }
 
@@ -180,18 +181,7 @@ namespace Project.Characters
 
             if (!canCatch)
             {
-                if (catchCoroutine != null)
-                {
-                    StopCoroutine(catchCoroutine);
-                    catchCoroutine = null;
-                    
-                    //CHANGE CANVAS MESSAGE
-                    Debug.Log("FULL");
-                    return;
-                }
-
-                //Deactivate all canvas
-                Debug.Log("DEACTIVATING CANVAS");
+                StopCatch();
             }
         }
     }
