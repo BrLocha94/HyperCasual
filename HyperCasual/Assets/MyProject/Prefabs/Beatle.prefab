@@ -114,7 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 625e107b186358a42bfa0919e04be654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4.5
+  speed: 5
   minDistanceToStop: 10
 --- !u!1 &4994598395030087046
 GameObject:
@@ -229,9 +229,10 @@ MonoBehaviour:
   canvas: {fileID: 4966554260987758546}
   fillHolder: {fileID: 2798000371578150957}
   creatureType: 1
-  defaultLife: 300
+  defaultLife: 200
   lifeRemoval: 1
   gravityScale: 2
+  isProp: 0
 --- !u!33 &4994598395318136903
 MeshFilter:
   m_ObjectHideFlags: 0
