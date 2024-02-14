@@ -38,11 +38,17 @@ namespace Project.Characters
         private void Awake()
         {
             catchArea.onCountUpdated += OnCatchListUpdated;
+            OnCatchListUpdated(0, false);
         }
 
-        private void OnCatchListUpdated(int count)
+        private void OnCatchListUpdated(int count, bool anyIsFull)
         {
             animator.SetLayerWeight(1, count > 0 ? 1 : 0);
+
+            if (anyIsFull)
+                messageCanvas.SetActive(true);
+            else
+                messageCanvas.SetActive(false);
         }
 
         private void FixedUpdate()

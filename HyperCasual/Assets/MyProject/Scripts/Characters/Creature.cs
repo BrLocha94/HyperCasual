@@ -41,14 +41,24 @@ namespace Project.Characters
         private Vector3 gravity = Vector3.zero;
 
         private int currentLife = 0;
-        private bool canCatch = true;
+        private bool isNotFull = true;
 
         public ECreatureType GetCreatureType() => creatureType;
+
+        public bool IsNotFull => isNotFull;
+
         public bool CanCatchCreature() => (
             currentState == ECreatureStates.Idle ||
             currentState == ECreatureStates.Walking ||
             currentState == ECreatureStates.Running
             )  && !isProp;
+
+        public bool IsLocked() => (
+            currentState == ECreatureStates.Null ||
+            currentState == ECreatureStates.Merging ||
+            currentState == ECreatureStates.Jailed ||
+            isProp
+            ) ;
 
         private void OnStateChange(ECreatureStates state)
         {
@@ -69,7 +79,7 @@ namespace Project.Characters
         private void Start()
         {
             creatureFSM.Initialize(player, transform);
-            canCatch = CreatureController.Instance.CanCatchCreature(creatureType);
+            isNotFull = CreatureController.Instance.CanCatchCreature(creatureType);
             CreatureController.Instance.onCreatureCountUpdated += CreatureCatched;
         }
 
@@ -118,7 +128,7 @@ namespace Project.Characters
 
             creatureFSM.ChangeState(ECreatureStates.Running);
 
-            if (canCatch)
+            if (isNotFull)
             {
                 if (catchCoroutine != null)
                 {
@@ -188,9 +198,9 @@ namespace Project.Characters
             if (type != creatureType)
                 return;
 
-            canCatch = CreatureController.Instance.CanCatchCreature(creatureType);
+            isNotFull = CreatureController.Instance.CanCatchCreature(creatureType);
 
-            if (!canCatch)
+            if (!isNotFull)
             {
                 StopCatch();
             }

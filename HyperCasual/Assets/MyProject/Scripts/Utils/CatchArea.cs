@@ -9,7 +9,7 @@ namespace Project.Utils
     [RequireComponent(typeof(Collider))]
     public class CatchArea : MonoBehaviour
     {
-        public Action<int> onCountUpdated;
+        public Action<int, bool> onCountUpdated;
 
         [SerializeField] private SpriteRenderer captureCone;
 
@@ -18,7 +18,7 @@ namespace Project.Utils
         public void CatchedCreature(Creature creature)
         {
             targets.Remove(creature);
-            onCountUpdated?.Invoke(targets.Count);
+            onCountUpdated?.Invoke(targets.Count, AnyTargetFull());
         }
 
         private void OnTriggerEnter(Collider other)
@@ -26,12 +26,20 @@ namespace Project.Utils
             if (other.tag.Equals("Creature"))
             {
                 Creature target = other.GetComponent<Creature>();
-                if (target.CanCatchCreature())
+                if (target != null)
                 {
+                    if (target.IsLocked())
+                        return;
+
                     targets.Add(target);
-                    target.StartCatch();
-                    captureCone.enabled = true;
-                    onCountUpdated?.Invoke(targets.Count);
+
+                    if (target.CanCatchCreature())
+                    {
+                        target.StartCatch();
+                        captureCone.enabled = targets.Count > 0;
+                    }
+
+                    onCountUpdated?.Invoke(targets.Count, AnyTargetFull());
                 }
             }
         }
@@ -41,11 +49,27 @@ namespace Project.Utils
             if (other.tag.Equals("Creature"))
             {
                 Creature target = other.GetComponent<Creature>();
-                targets.Remove(target);
-                target?.StopCatch();
-                captureCone.enabled = false;
-                onCountUpdated?.Invoke(targets.Count);
+                if (target != null)
+                {
+                    targets.Remove(target);
+                    target.StopCatch();
+                    captureCone.enabled = targets.Count > 0;
+                    onCountUpdated?.Invoke(targets.Count, AnyTargetFull());
+                }
             }
+        }
+
+        private bool AnyTargetFull()
+        {
+            foreach(var target in targets)
+            {
+                if (target.IsNotFull)
+                    continue;
+
+                return true;
+            }
+
+            return false;
         }
     }
 }
