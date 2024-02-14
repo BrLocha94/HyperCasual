@@ -11,6 +11,10 @@ namespace Project.Characters
         [SerializeField]
         private CharacterController characterController;
         [SerializeField]
+        private Transform rotationPivot;
+        [SerializeField]
+        private GameObject messageCanvas;
+        [SerializeField]
         private Animator animator;
         [SerializeField]
         private JoystickUI joystick;
@@ -52,11 +56,11 @@ namespace Project.Characters
 
             moviment = new Vector3(inputX * movimentSpeed * Time.fixedDeltaTime, 0f, inputZ * movimentSpeed * Time.fixedDeltaTime);
 
-            transform.localRotation = Quaternion.LookRotation(moviment);
+            rotationPivot.localRotation = Quaternion.LookRotation(moviment);
 
             characterController.Move(moviment);
 
-            float movimentScale = (inputX > 0.5f || inputZ > 0.5f) ? 1f : 0.5f;
+            float movimentScale = (moviment.x > 0.5f || moviment.z > 0.5f) ? 1f : 0.5f;
 
             animator.SetFloat("Moviment", movimentScale);
         }

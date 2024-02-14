@@ -178,6 +178,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6959413646829268886, guid: d8a9c84cae8bede4784f23d625e10494, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d8a9c84cae8bede4784f23d625e10494, type: 3}
 --- !u!114 &193725623 stripped
@@ -246,6 +250,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Elephant (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 5968900987440586295, guid: d6da43486c06a1547af18ced36165e16, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6da43486c06a1547af18ced36165e16, type: 3}
 --- !u!1001 &297638348
@@ -303,6 +311,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6959413646829268886, guid: d8a9c84cae8bede4784f23d625e10494, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d8a9c84cae8bede4784f23d625e10494, type: 3}
 --- !u!1001 &394647616
@@ -358,6 +370,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4994598395318136901, guid: d8a9c84cae8bede4784f23d625e10494, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6959413646829268886, guid: d8a9c84cae8bede4784f23d625e10494, type: 3}
+      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -421,6 +437,10 @@ PrefabInstance:
     - target: {fileID: 5145694819832159326, guid: d6da43486c06a1547af18ced36165e16, type: 3}
       propertyPath: m_Name
       value: Elephant (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5968900987440586295, guid: d6da43486c06a1547af18ced36165e16, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6da43486c06a1547af18ced36165e16, type: 3}
@@ -616,14 +636,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.30464745, y: -0, z: -0, w: 0.95246524}
+  m_LocalRotation: {x: 0.21021399, y: -0, z: -0, w: 0.9776554}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1861012165}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 35.474, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 24.27, y: 0, z: 0}
 --- !u!114 &963194229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -711,6 +731,10 @@ PrefabInstance:
     - target: {fileID: 5145694819832159326, guid: d6da43486c06a1547af18ced36165e16, type: 3}
       propertyPath: m_Name
       value: Elephant (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5968900987440586295, guid: d6da43486c06a1547af18ced36165e16, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6da43486c06a1547af18ced36165e16, type: 3}
@@ -1008,7 +1032,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1861012164}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -33.52627, y: 12, z: -22}
+  m_LocalPosition: {x: -33.52627, y: 9.46, z: -22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1029,7 +1053,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 489503817}
-  distanceYFromTarget: 11
+  distanceYFromTarget: 9
   distanceZFromTarget: -11
 --- !u!1001 &160246037024713596
 PrefabInstance:
@@ -1085,6 +1109,10 @@ PrefabInstance:
     - target: {fileID: 5145694819832159326, guid: d6da43486c06a1547af18ced36165e16, type: 3}
       propertyPath: m_Name
       value: Elephant
+      objectReference: {fileID: 0}
+    - target: {fileID: 5968900987440586295, guid: d6da43486c06a1547af18ced36165e16, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6da43486c06a1547af18ced36165e16, type: 3}
@@ -1240,6 +1268,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6959413646829268886, guid: d8a9c84cae8bede4784f23d625e10494, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d8a9c84cae8bede4784f23d625e10494, type: 3}
 --- !u!1001 &6893211891396977337
@@ -1249,6 +1281,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4989412815585991360, guid: 0318752f7fbc8c34a926c0714889cb3f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6893211891747397360, guid: 0318752f7fbc8c34a926c0714889cb3f, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -1301,5 +1337,13 @@ PrefabInstance:
       propertyPath: joystick
       value: 
       objectReference: {fileID: 193725623}
+    - target: {fileID: 6917106961321717904, guid: 0318752f7fbc8c34a926c0714889cb3f, type: 3}
+      propertyPath: m_AspectRatio
+      value: 0.001
+      objectReference: {fileID: 0}
+    - target: {fileID: 9194645921321096771, guid: 0318752f7fbc8c34a926c0714889cb3f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0318752f7fbc8c34a926c0714889cb3f, type: 3}

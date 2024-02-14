@@ -12,6 +12,8 @@ namespace Project.Characters
         [SerializeField]
         private ECreatureType creatureType;
         [SerializeField]
+        private Transform rotationPivot;
+        [SerializeField]
         private Animator animator;
         [SerializeField]
         private CharacterController characterController;
@@ -90,14 +92,14 @@ namespace Project.Characters
                 animator.Play("Walk");
                 smokeEffect.enableEmission = true;
                 moviment = new Vector3(moviment.x * Time.fixedDeltaTime, 0f, moviment.z * Time.fixedDeltaTime);
-                transform.localRotation = Quaternion.LookRotation(moviment);
+                rotationPivot.localRotation = Quaternion.LookRotation(moviment);
                 characterController.Move(moviment);
             }
             else
             {
                 animator.Play("Idle_Variation");
                 moviment = new Vector3(moviment.x * Time.fixedDeltaTime, 0f, moviment.z * Time.fixedDeltaTime);
-                transform.localRotation = Quaternion.LookRotation(moviment);
+                rotationPivot.localRotation = Quaternion.LookRotation(moviment);
             }
         }
         private void ChangeState(ECreatureStates nextState)
