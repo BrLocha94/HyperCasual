@@ -276,6 +276,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4994598395030087047}
+  - component: {fileID: 6369869182052838917}
   m_Layer: 0
   m_Name: Behaviours
   m_TagString: Untagged
@@ -303,6 +304,23 @@ Transform:
   m_Father: {fileID: 4994598395318136901}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6369869182052838917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4994598395030087046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0080429f4f7ff64d84b22601552bf0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  idleBehaviour: {fileID: 4994598396711171320}
+  walkingBehaviour: {fileID: 4994598396279417087}
+  runningBehaviour: {fileID: 4994598394721027668}
+  catchBehaviour: {fileID: 8770823961042742834}
+  jailedBehaviour: {fileID: 6175510652512503382}
 --- !u!1 &4994598395318136899
 GameObject:
   m_ObjectHideFlags: 0
@@ -354,16 +372,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6218a8580dc90ad489e5467c7013f29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  creatureType: 1
-  rotationPivot: {fileID: 2776979206453321376}
-  animator: {fileID: 173040043}
   characterController: {fileID: 4994598395318136896}
+  animator: {fileID: 173040043}
+  rotationPivot: {fileID: 2776979206453321376}
   smokeEffect: {fileID: 4994598396414630715}
-  idleBehaviour: {fileID: 4994598396711171320}
-  walkingBehaviour: {fileID: 4994598396279417087}
-  runningBehaviour: {fileID: 4994598394721027668}
-  catchBehaviour: {fileID: 8770823961042742834}
-  jailedBehaviour: {fileID: 6175510652512503382}
+  creatureFSM: {fileID: 6369869182052838917}
+  creatureType: 1
+  defaultLife: 300
+  lifeRemoval: 1
 --- !u!33 &4994598395318136903
 MeshFilter:
   m_ObjectHideFlags: 0

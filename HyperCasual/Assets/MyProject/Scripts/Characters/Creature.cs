@@ -10,17 +10,9 @@ namespace Project.Characters
     public class Creature : CharacterBase
     {
         [Header("Creature")]
-        [Header("Behaviours")]
+        [Header("External references")]
         [SerializeField]
-        private AIBehaviourBase idleBehaviour;
-        [SerializeField]
-        private AIBehaviourBase walkingBehaviour;
-        [SerializeField]
-        private AIBehaviourBase runningBehaviour;
-        [SerializeField]
-        private AIBehaviourBase catchBehaviour;
-        [SerializeField]
-        private AIBehaviourBase jailedBehaviour;
+        private CreatureFSM creatureFSM;
 
         [Header("Creature configurations")]
         [SerializeField]
@@ -31,12 +23,11 @@ namespace Project.Characters
         private int lifeRemoval = 1;
 
         private ECreatureStates currentState = ECreatureStates.Null;
-        private AIBehaviourBase currentBehaviour = null;
 
         private Character player = null;
         private Coroutine catchCoroutine = null;
 
-        Vector3 moviment = Vector3.zero;
+        private Vector3 moviment = Vector3.zero;
 
         private int currentLife = 0;
         private bool canCatch = true;
@@ -48,23 +39,22 @@ namespace Project.Characters
             currentState == ECreatureStates.Running
             );
 
+        private void OnStateChange(ECreatureStates state)
+        {
+            currentState = state;
+        }
+
         private void Awake()
         {
+            creatureFSM.onStateChange += OnStateChange;
+
             currentLife = defaultLife;
-
-            idleBehaviour.onFinishEvent += FinishedIdle;
-            walkingBehaviour.onFinishEvent += FinishedWalking;
-            runningBehaviour.onFinishEvent += FinishedRunning;
-            catchBehaviour.onFinishEvent += FinishedCatching;
-            jailedBehaviour.onFinishEvent += FinishedJail;
-
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>();
-
-            ChangeState(ECreatureStates.Idle);
         }
 
         private void Start()
         {
+            creatureFSM.Initialize(player, transform);
             canCatch = CreatureController.Instance.CanCatchCreature(creatureType);
             CreatureController.Instance.onCreatureCountUpdated += CreatureCatched;
         }
@@ -74,10 +64,7 @@ namespace Project.Characters
             if (!gameObject.activeInHierarchy)
                 return;
 
-            if (currentBehaviour == null)
-                return;
-
-            moviment = currentBehaviour.GetMoviment();
+            moviment = creatureFSM.GetMoviment();
 
             if (moviment == Vector3.zero)
             {
@@ -100,84 +87,10 @@ namespace Project.Characters
                 rotationPivot.localRotation = Quaternion.LookRotation(moviment);
             }
         }
-        private void ChangeState(ECreatureStates nextState)
-        {
-            currentState = nextState;
-
-            if (currentState == ECreatureStates.Null)
-                return;
-
-            if(currentBehaviour != null)
-                currentBehaviour.StopBehavior();
-
-            if (currentState == ECreatureStates.Idle)
-            {
-                currentBehaviour = idleBehaviour;
-                currentBehaviour.ExecuteBehaviour();
-                return;
-            }
-
-            else if (currentState == ECreatureStates.Walking)
-            {
-                currentBehaviour = walkingBehaviour;
-                currentBehaviour.ExecuteBehaviour();
-                return;
-            }
-
-            else if (currentState == ECreatureStates.Running)
-            {
-                currentBehaviour = runningBehaviour;
-                currentBehaviour.SetSource(transform);
-                currentBehaviour.SetTarget(player.transform);
-                currentBehaviour.ExecuteBehaviour();
-                return;
-            }
-
-            else if (currentState == ECreatureStates.Catched)
-            {
-                currentBehaviour = catchBehaviour;
-                currentBehaviour.SetSource(transform);
-                currentBehaviour.ExecuteBehaviour();
-                return;
-            }
-
-            else if (currentState == ECreatureStates.Jailed)
-            {
-                currentBehaviour = jailedBehaviour;
-                currentBehaviour.SetSource(transform);
-                currentBehaviour.ExecuteBehaviour();
-                return;
-            }
-        }
-
-        private void FinishedIdle()
-        {
-            ChangeState(ECreatureStates.Walking);
-        }
-
-        private void FinishedWalking()
-        {
-            ChangeState(ECreatureStates.Idle);
-        }
-
-        private void FinishedRunning()
-        {
-            ChangeState(ECreatureStates.Idle);
-        }
-
-        private void FinishedCatching()
-        {
-            gameObject.SetActive(false);
-        }
-
-        private void FinishedJail()
-        {
-            gameObject.SetActive(true);
-        }
 
         public void StartCatch()
         {
-            ChangeState(ECreatureStates.Running);
+            creatureFSM.ChangeState(ECreatureStates.Running);
 
             if (canCatch)
             {
@@ -207,14 +120,14 @@ namespace Project.Characters
 
         IEnumerator CatchingRoutine()
         {
-            while(defaultLife > 0)
+            while(currentLife > 0)
             {
-                defaultLife -= lifeRemoval;
+                currentLife -= lifeRemoval;
 
-                if(defaultLife < 0)
-                    defaultLife = 0;
+                if(currentLife < 0)
+                    currentLife = 0;
 
-                Debug.Log(defaultLife);
+                Debug.Log(currentLife);
 
                 yield return null;
             }
@@ -237,13 +150,13 @@ namespace Project.Characters
 
         public void FinishCatching()
         {
-            ChangeState(ECreatureStates.Catched);
+            creatureFSM.ChangeState(ECreatureStates.Catched);
         }
 
         public void SetOnJail()
         {
             gameObject.SetActive(true);
-            ChangeState(ECreatureStates.Jailed);
+            creatureFSM.ChangeState(ECreatureStates.Jailed);
         }
 
         private void CreatureCatched(ECreatureType type, int count) 
