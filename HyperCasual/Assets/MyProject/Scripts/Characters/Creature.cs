@@ -7,19 +7,9 @@ namespace Project.Characters
     using Project.Enums;
     using UnityEngine.Windows;
 
-    public class Creature : MonoBehaviour
+    public class Creature : CharacterBase
     {
-        [SerializeField]
-        private ECreatureType creatureType;
-        [SerializeField]
-        private Transform rotationPivot;
-        [SerializeField]
-        private Animator animator;
-        [SerializeField]
-        private CharacterController characterController;
-        [SerializeField]
-        private ParticleSystem smokeEffect;
-
+        [Header("Creature")]
         [Header("Behaviours")]
         [SerializeField]
         private AIBehaviourBase idleBehaviour;
@@ -32,6 +22,13 @@ namespace Project.Characters
         [SerializeField]
         private AIBehaviourBase jailedBehaviour;
 
+        [Header("Creature configurations")]
+        [SerializeField]
+        private ECreatureType creatureType;
+        [SerializeField] 
+        private int defaultLife = 300;
+        [SerializeField]
+        private int lifeRemoval = 1;
 
         private ECreatureStates currentState = ECreatureStates.Null;
         private AIBehaviourBase currentBehaviour = null;
@@ -41,8 +38,7 @@ namespace Project.Characters
 
         Vector3 moviment = Vector3.zero;
 
-        private int life = 300;
-        private int lifeRemoval = 1;
+        private int currentLife = 0;
         private bool canCatch = true;
 
         public ECreatureType GetCreatureType() => creatureType;
@@ -54,6 +50,8 @@ namespace Project.Characters
 
         private void Awake()
         {
+            currentLife = defaultLife;
+
             idleBehaviour.onFinishEvent += FinishedIdle;
             walkingBehaviour.onFinishEvent += FinishedWalking;
             runningBehaviour.onFinishEvent += FinishedRunning;
@@ -209,14 +207,14 @@ namespace Project.Characters
 
         IEnumerator CatchingRoutine()
         {
-            while(life > 0)
+            while(defaultLife > 0)
             {
-                life -= lifeRemoval;
+                defaultLife -= lifeRemoval;
 
-                if(life < 0)
-                    life = 0;
+                if(defaultLife < 0)
+                    defaultLife = 0;
 
-                Debug.Log(life);
+                Debug.Log(defaultLife);
 
                 yield return null;
             }

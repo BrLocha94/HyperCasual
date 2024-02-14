@@ -6,16 +6,12 @@ namespace Project.Characters
     using UnityEngine;
     using Project.Enums;
 
-    public class Character : MonoBehaviour
+    public class Character : CharacterBase
     {
-        [SerializeField]
-        private CharacterController characterController;
-        [SerializeField]
-        private Transform rotationPivot;
+        [Header("Character")]
+        [Header("External references")]
         [SerializeField]
         private GameObject messageCanvas;
-        [SerializeField]
-        private Animator animator;
         [SerializeField]
         private GameObject vfxCatch;
         [SerializeField]
@@ -23,9 +19,9 @@ namespace Project.Characters
         [SerializeField]
         private CatchArea catchArea;
         [SerializeField]
-        private ParticleSystem smokeEffect;
-        [SerializeField]
         private Transform catchedList;
+
+        [Header("Character configurations")]
         [SerializeField]
         private float movimentSpeed = 5f;
         
