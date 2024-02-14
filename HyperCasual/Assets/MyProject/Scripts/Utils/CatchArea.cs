@@ -11,6 +11,8 @@ namespace Project.Utils
     {
         public Action<int> onCountUpdated;
 
+        [SerializeField] private SpriteRenderer captureCone;
+
         private List<Creature> targets = new List<Creature>();
 
         public void CatchedCreature(Creature creature)
@@ -28,6 +30,7 @@ namespace Project.Utils
                 {
                     targets.Add(target);
                     target.StartCatch();
+                    captureCone.enabled = true;
                     onCountUpdated?.Invoke(targets.Count);
                 }
             }
@@ -40,6 +43,7 @@ namespace Project.Utils
                 Creature target = other.GetComponent<Creature>();
                 targets.Remove(target);
                 target?.StopCatch();
+                captureCone.enabled = false;
                 onCountUpdated?.Invoke(targets.Count);
             }
         }

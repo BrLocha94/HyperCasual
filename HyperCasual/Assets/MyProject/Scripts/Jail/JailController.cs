@@ -5,9 +5,13 @@ namespace Project.Jail
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
+    using UnityEngine.Playables;
 
     public class JailController : MonoBehaviour
     {
+        [SerializeField]
+        private PlayableDirector director;
+
         [SerializeField]
         private List<Jail> jailList = new List<Jail>();
 
@@ -49,7 +53,7 @@ namespace Project.Jail
                 jail.SetCreature(list.Find(x => x.GetCreatureType() == jail.CreatureType));
             }
 
-
+            StartCoroutine(MergeRoutine());
         }
 
         private void CheckJailsForMerge()
@@ -67,6 +71,7 @@ namespace Project.Jail
         private IEnumerator MergeRoutine()
         {
             yield return new WaitForSeconds(mergeInitialDelay);
+            director.Play();
         }
     }
 }
