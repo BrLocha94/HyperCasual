@@ -11,6 +11,7 @@ namespace Project.UI
 
     public class WindowInfo : WindowSimple
     {
+        [Header("Window info")]
         [SerializeField]
         private Image targetImage;
         [SerializeField]
