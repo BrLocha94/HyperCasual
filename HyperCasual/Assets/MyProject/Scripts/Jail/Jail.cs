@@ -23,13 +23,21 @@ namespace Project.Jail
             this.creatureType = creatureType;
         }
 
-        public void SetCreature(Creature creature) 
+        public void SetCreature(Creature targetCreature) 
         {
-            if (creature == null) return;
+            if (creature != null) return;
 
-            this.creature = creature;
-            this.creature.transform.parent = this.transform;
-            this.creature.SetOnJail();
+            creature = targetCreature;
+            creature.transform.parent = this.transform;
+            creature.SetOnJail();
+        }
+
+        public void ClearJail()
+        {
+            if(creature == null) return;
+
+            creature.FinishedMerge();
+            creature = null;
         }
     }
 }

@@ -50,10 +50,13 @@ namespace Project.Jail
             {
                 if (jail.isFull) continue;
 
-                jail.SetCreature(list.Find(x => x.GetCreatureType() == jail.CreatureType));
+                var target = list.Find(x => x.GetCreatureType() == jail.CreatureType);
+
+                if(target != null)
+                    jail.SetCreature(target);
             }
 
-            StartCoroutine(MergeRoutine());
+            CheckJailsForMerge();
         }
 
         private void CheckJailsForMerge()
@@ -65,7 +68,7 @@ namespace Project.Jail
                 return;
             }
 
-
+            StartCoroutine(MergeRoutine());
         }
 
         private IEnumerator MergeRoutine()

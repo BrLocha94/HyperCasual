@@ -172,6 +172,11 @@ namespace Project.Characters
             creatureFSM.ChangeState(ECreatureStates.Jailed);
         }
 
+        public void FinishedMerge()
+        {
+            Destroy(gameObject);
+        }
+
         private void CreatureCatched(ECreatureType type, int count) 
         {
             if (type != creatureType)
