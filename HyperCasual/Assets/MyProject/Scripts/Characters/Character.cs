@@ -17,6 +17,8 @@ namespace Project.Characters
         [SerializeField]
         private Animator animator;
         [SerializeField]
+        private GameObject vfxCatch;
+        [SerializeField]
         private JoystickUI joystick;
         [SerializeField]
         private CatchArea catchArea;
@@ -82,6 +84,8 @@ namespace Project.Characters
             CreatureController.Instance.CatchCreature(creature.GetCreatureType());
 
             catchArea.CatchedCreature(creature);
+
+            StartCoroutine(CatchVfxRoutine());
         }
 
         public List<Creature> GetCatchedCreaturesByType(List<ECreatureType> typeList)
@@ -105,6 +109,21 @@ namespace Project.Characters
             }
 
             return list;
+        }
+
+        IEnumerator CatchVfxRoutine()
+        {
+            yield return new WaitForSeconds(1.2f);
+            
+            vfxCatch.SetActive(false);
+
+            yield return new WaitForEndOfFrame();
+
+            vfxCatch.SetActive(true);
+
+            yield return new WaitForSeconds(0.8f);
+
+            vfxCatch.SetActive(false);
         }
     }
 }
