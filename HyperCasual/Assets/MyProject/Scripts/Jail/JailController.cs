@@ -2,6 +2,7 @@ namespace Project.Jail
 {
     using Project.Characters;
     using Project.Enums;
+    using Project.UI;
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
@@ -11,6 +12,8 @@ namespace Project.Jail
     {
         [SerializeField]
         private PlayableDirector director;
+        [SerializeField]
+        private ExpHolder expHolder;
 
         [SerializeField]
         private List<Jail> jailList = new List<Jail>();
@@ -75,6 +78,17 @@ namespace Project.Jail
         {
             yield return new WaitForSeconds(mergeInitialDelay);
             director.Play();
+        }
+
+        public void OnMergeFinished()
+        {
+            //Default 60 points per merge
+            expHolder.AddValue(60);
+
+            foreach (var jail in jailList)
+            {
+                jail.ClearJailAfterMerge();
+            }
         }
     }
 }

@@ -32,7 +32,7 @@ namespace Project.Jail
             creature.SetOnJail();
         }
 
-        public void ClearJail()
+        public void ClearJailAfterMerge()
         {
             if(creature == null) return;
 

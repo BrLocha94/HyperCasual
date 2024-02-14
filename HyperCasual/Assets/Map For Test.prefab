@@ -4579,6 +4579,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0b2da09141e8ac40ae0de47042b7801, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  director: {fileID: 0}
+  expHolder: {fileID: 0}
   jailList:
   - {fileID: 1541153790}
   - {fileID: 1541153789}
@@ -20239,6 +20241,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetRect: {fileID: 4307659628190382891}
   targetText: {fileID: 7693474507783636317}
+  changeColorOnPop: 0
+  popColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   curveIn:
     serializedVersion: 2
     m_Curve:

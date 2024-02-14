@@ -174,6 +174,7 @@ namespace Project.Characters
 
         public void FinishedMerge()
         {
+            CreatureController.Instance.MergedCreature(creatureType);
             Destroy(gameObject);
         }
 

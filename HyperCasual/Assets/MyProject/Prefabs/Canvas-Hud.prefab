@@ -64,6 +64,7 @@ MonoBehaviour:
   creatureType: 2
   targetText: {fileID: 54931860425485744}
   popTime: 0.4
+  delay: 1.3
 --- !u!114 &54931858896389554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -897,6 +898,7 @@ MonoBehaviour:
   creatureType: 1
   targetText: {fileID: 54931860366386573}
   popTime: 0.4
+  delay: 1.3
 --- !u!114 &54931860254870682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1002,6 +1004,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetRect: {fileID: 54931860366386560}
   targetText: {fileID: 54931860366386575}
+  changeColorOnPop: 1
+  popColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   curveIn:
     serializedVersion: 2
     m_Curve:
@@ -1202,6 +1206,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetRect: {fileID: 54931860425485747}
   targetText: {fileID: 54931860425485746}
+  changeColorOnPop: 1
+  popColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   curveIn:
     serializedVersion: 2
     m_Curve:

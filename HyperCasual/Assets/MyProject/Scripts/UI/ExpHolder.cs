@@ -16,7 +16,7 @@ namespace Project.UI
         private int levelValue = 50;
         private int currentValue = 0;
         private int finalValue = 0;
-        private int levelScaling = 70;
+        private int levelScaling = 80;
         private float levelUpDelay = 0.4f;
 
         private int currentLevel = 1;

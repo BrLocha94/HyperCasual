@@ -15,7 +15,12 @@ namespace Project.UI
         private RectTransform targetRect;
         [SerializeField]
         private TextMeshProUGUI targetText;
-        
+
+        [SerializeField]
+        private bool changeColorOnPop = false;
+        [SerializeField]
+        private Color popColor = Color.yellow;
+
         [SerializeField]
         private AnimationCurve curveIn;
         [SerializeField]
@@ -25,9 +30,16 @@ namespace Project.UI
         [SerializeField]
         private string prefix = string.Empty;
 
-
+        Color defaultColor = new Color();
         Coroutine coroutine = null;
 
+        private void Awake()
+        {
+            defaultColor.r = targetText.color.r;
+            defaultColor.g = targetText.color.g;
+            defaultColor.b = targetText.color.b;
+            defaultColor.a = targetText.color.a;
+        }
 
         public void SetValue(int value)
         {
@@ -42,6 +54,7 @@ namespace Project.UI
                 coroutine = null;
             }
 
+            targetText.color = defaultColor;
             targetRect.localScale = Vector3.one;
             coroutine = StartCoroutine(PopRoutine(time, delay, () => targetText.text = prefix + value.ToString()));
         }
@@ -62,6 +75,9 @@ namespace Project.UI
                 1f
                 );
 
+            if (changeColorOnPop)
+                targetText.color = popColor;
+
             while (currentTime < partialTime)
             {
                 targetRect.localScale = Vector3.Lerp(initialScale, finalScale, curveIn.Evaluate(currentTime / partialTime));
@@ -81,6 +97,7 @@ namespace Project.UI
                 yield return null;
             }
 
+            targetText.color = defaultColor;
             coroutine = null;
         }
     }
