@@ -24,11 +24,15 @@ namespace Project.Characters
         [Header("Character configurations")]
         [SerializeField]
         private float movimentSpeed = 5f;
+        [SerializeField]
+        private float gravityScale = 1f;
         
         private float inputX = 0f;
         private float inputZ = 0f;
 
         private Vector3 moviment = Vector3.zero;
+        private Vector3 gravity = Vector3.zero;
+
         private List<Creature> creatures = new List<Creature>();
 
         private void Awake()
@@ -43,6 +47,13 @@ namespace Project.Characters
 
         private void FixedUpdate()
         {
+            if (characterController.isGrounded)
+                gravity.y = 0;
+            else
+                gravity.y = -1 * gravityScale * Time.fixedDeltaTime;
+
+            characterController.Move(gravity);
+
             if (inputX == 0f && inputZ == 0f)
             {
                 smokeEffect.enableEmission = false;

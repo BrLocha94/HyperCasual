@@ -14822,15 +14822,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterController: {fileID: 6893211891747397373}
-  rotationPivot: {fileID: 6580937602809961810}
-  messageCanvas: {fileID: 1894845762083940563}
   animator: {fileID: 5667388035250473606}
+  rotationPivot: {fileID: 6580937602809961810}
+  smokeEffect: {fileID: 6893211891925503214}
+  messageCanvas: {fileID: 1894845762083940563}
   vfxCatch: {fileID: 1253717510513991381}
   joystick: {fileID: 0}
   catchArea: {fileID: 3522072812867927383}
-  smokeEffect: {fileID: 6893211891925503214}
   catchedList: {fileID: 6893211893093533312}
   movimentSpeed: 6.5
+  gravityScale: 4
 --- !u!23 &6893211891747397375
 MeshRenderer:
   m_ObjectHideFlags: 0

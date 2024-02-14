@@ -21,6 +21,8 @@ namespace Project.Characters
         private int defaultLife = 300;
         [SerializeField]
         private int lifeRemoval = 1;
+        [SerializeField]
+        private float gravityScale = 1f;
 
         private ECreatureStates currentState = ECreatureStates.Null;
 
@@ -28,6 +30,7 @@ namespace Project.Characters
         private Coroutine catchCoroutine = null;
 
         private Vector3 moviment = Vector3.zero;
+        private Vector3 gravity = Vector3.zero;
 
         private int currentLife = 0;
         private bool canCatch = true;
@@ -63,6 +66,15 @@ namespace Project.Characters
         {
             if (!gameObject.activeInHierarchy)
                 return;
+
+            if (characterController.isGrounded)
+                gravity.y = 0;
+            else
+                gravity.y = -1 * gravityScale * Time.fixedDeltaTime;
+
+            // Do not aplly gravity when is on specific situations
+            if(CanCatchCreature())
+                characterController.Move(gravity);
 
             moviment = creatureFSM.GetMoviment();
 

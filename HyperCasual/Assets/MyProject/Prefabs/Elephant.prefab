@@ -5425,6 +5425,7 @@ MonoBehaviour:
   creatureType: 2
   defaultLife: 300
   lifeRemoval: 1
+  gravityScale: 4
 --- !u!33 &5145694819832159322
 MeshFilter:
   m_ObjectHideFlags: 0

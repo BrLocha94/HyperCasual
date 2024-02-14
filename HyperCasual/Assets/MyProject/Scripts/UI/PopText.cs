@@ -1,5 +1,6 @@
 namespace Project.UI
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Security.Cryptography;
@@ -33,10 +34,8 @@ namespace Project.UI
             targetText.text = prefix + value.ToString();
         }
 
-        public void SetValuePop(int value, float time)
+        public void SetValuePop(int value, float time, float delay = 0f)
         {
-            targetText.text = prefix + value.ToString();
-
             if (coroutine != null) 
             {
                 StopCoroutine(coroutine);
@@ -44,11 +43,15 @@ namespace Project.UI
             }
 
             targetRect.localScale = Vector3.one;
-            coroutine = StartCoroutine(PopRoutine(time));
+            coroutine = StartCoroutine(PopRoutine(time, delay, () => targetText.text = prefix + value.ToString()));
         }
 
-        private IEnumerator PopRoutine(float time)
+        private IEnumerator PopRoutine(float time, float delay, Action onDelayFinished)
         {
+            yield return new WaitForSeconds(delay);
+
+            onDelayFinished?.Invoke();
+
             float currentTime = 0;
             float partialTime = time / 2;
 

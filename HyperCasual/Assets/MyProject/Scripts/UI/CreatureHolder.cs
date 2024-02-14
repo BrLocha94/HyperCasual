@@ -15,6 +15,8 @@ namespace Project.UI
         private PopText targetText;
         [SerializeField]
         private float popTime = 1f;
+        [SerializeField]
+        private float delay = 1.3f;
 
         private void Awake()
         {
@@ -31,7 +33,7 @@ namespace Project.UI
             if (creatureType != type)
                 return;
 
-            targetText.SetValuePop(count, popTime);
+            targetText.SetValuePop(count, popTime, delay);
         }
     }
 }
