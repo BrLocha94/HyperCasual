@@ -248,7 +248,7 @@ namespace Project.Characters
             ChangeState(ECreatureStates.Jailed);
         }
 
-        private void CreatureCatched(ECreatureType type) 
+        private void CreatureCatched(ECreatureType type, int count) 
         {
             if (type != creatureType)
                 return;

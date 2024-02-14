@@ -20288,6 +20288,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   scaleFactor: 0.25
+  prefix: 'LV:'
 --- !u!114 &7693474507783636317
 MonoBehaviour:
   m_ObjectHideFlags: 0

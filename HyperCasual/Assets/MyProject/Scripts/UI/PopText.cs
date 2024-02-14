@@ -21,17 +21,21 @@ namespace Project.UI
         private AnimationCurve curveOut;
         [SerializeField]
         private float scaleFactor = 0.25f;
+        [SerializeField]
+        private string prefix = string.Empty;
+
 
         Coroutine coroutine = null;
 
+
         public void SetValue(int value)
         {
-            targetText.text = "LV: " + value.ToString();
+            targetText.text = prefix + value.ToString();
         }
 
         public void SetValuePop(int value, float time)
         {
-            targetText.text = "LV: " + value.ToString();
+            targetText.text = prefix + value.ToString();
 
             if (coroutine != null) 
             {

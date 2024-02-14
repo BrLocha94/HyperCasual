@@ -10,7 +10,7 @@ namespace Project.Characters
 
     public class CreatureController : MonoSingleton<CreatureController>
     {
-        public Action<ECreatureType> onCreatureCountUpdated = null;
+        public Action<ECreatureType, int> onCreatureCountUpdated = null;
 
         private List<ECreatureType> catchedCreatures = new List<ECreatureType>();
         private Dictionary<ECreatureType, int> currentCatchedCreatures = new Dictionary<ECreatureType, int>();
@@ -33,7 +33,7 @@ namespace Project.Characters
         public void CatchCreature(ECreatureType creatureType)
         {
             currentCatchedCreatures[creatureType]++;
-            onCreatureCountUpdated?.Invoke(creatureType);
+            onCreatureCountUpdated?.Invoke(creatureType, currentCatchedCreatures[creatureType]);
 
             if(!catchedCreatures.Contains(creatureType)) 
             { 
@@ -49,7 +49,7 @@ namespace Project.Characters
             if (currentCatchedCreatures[creatureType] < 0)
                 currentCatchedCreatures[creatureType] = 0;
 
-            onCreatureCountUpdated?.Invoke(creatureType);
+            onCreatureCountUpdated?.Invoke(creatureType, currentCatchedCreatures[creatureType]);
         }
     }
 }
