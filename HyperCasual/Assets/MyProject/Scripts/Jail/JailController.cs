@@ -89,6 +89,10 @@ namespace Project.Jail
             {
                 jail.ClearJailAfterMerge();
             }
+
+            director.time = 0;
+            director.Stop();
+            director.Evaluate();
         }
     }
 }

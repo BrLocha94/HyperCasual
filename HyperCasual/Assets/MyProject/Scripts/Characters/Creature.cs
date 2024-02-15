@@ -83,6 +83,11 @@ namespace Project.Characters
             CreatureController.Instance.onCreatureCountUpdated += CreatureCatched;
         }
 
+        private void OnDestroy()
+        {
+            CreatureController.Instance.onCreatureCountUpdated -= CreatureCatched;
+        }
+
         private void FixedUpdate()
         {
             if (!gameObject.activeInHierarchy)
